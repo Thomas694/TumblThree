@@ -18,6 +18,7 @@ namespace TumblThree.Applications.ViewModels
     public class ShellViewModel : ViewModel<IShellView>
     {
         private readonly DelegateCommand _closeErrorCommand;
+        private readonly DelegateCommand _closeAllErrorCommand;
         private readonly DelegateCommand _exitCommand;
         private readonly DelegateCommand _garbageCollectorCommand;
         private readonly DelegateCommand _showAboutCommand;
@@ -42,6 +43,7 @@ namespace TumblThree.Applications.ViewModels
             _errors = new ObservableCollection<Tuple<Exception, string>>();
             _exitCommand = new DelegateCommand(Close);
             _closeErrorCommand = new DelegateCommand(CloseError);
+            _closeAllErrorCommand = new DelegateCommand(CloseAllError);
             _garbageCollectorCommand = new DelegateCommand(GC.Collect);
             _showSettingsCommand = new DelegateCommand(ShowSettingsView);
             _showAboutCommand = new DelegateCommand(ShowAboutView);
@@ -77,6 +79,8 @@ namespace TumblThree.Applications.ViewModels
         public ICommand ExitCommand => _exitCommand;
 
         public ICommand CloseErrorCommand => _closeErrorCommand;
+
+        public ICommand CloseAllErrorCommand => _closeAllErrorCommand;
 
         public ICommand GarbageCollectorCommand => _garbageCollectorCommand;
 
@@ -158,6 +162,14 @@ namespace TumblThree.Applications.ViewModels
             if (_errors.Any())
             {
                 _errors.RemoveAt(_errors.Count - 1);
+            }
+        }
+
+        private void CloseAllError()
+        {
+            if (_errors.Any())
+            {
+                _errors.Clear();
             }
         }
 

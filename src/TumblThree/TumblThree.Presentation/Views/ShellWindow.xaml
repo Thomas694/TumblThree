@@ -7,6 +7,8 @@
         xmlns:ctrl="clr-namespace:TumblThree.Presentation.Controls"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:TumblThree.Applications.ViewModels;assembly=TumblThree.Applications"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+        xmlns:ei="clr-namespace:Microsoft.Expression.Interactivity.Core;assembly=Microsoft.Expression.Interactions"
         mc:Ignorable="d" Icon="{StaticResource TumblThreeIcon}" Width="800" Height="500"
         d:DataContext="{d:DesignInstance dd:SampleShellViewModel, IsDesignTimeCreatable=True}">
 
@@ -69,6 +71,7 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
                     <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
                 <TextBlock Foreground="White" Padding="5,4" TextTrimming="CharacterEllipsis">
@@ -84,7 +87,16 @@
                     </TextBlock.ToolTip>
                 </TextBlock>
 
-                <Button Command="{Binding CloseErrorCommand}" Style="{StaticResource CloseButtonStyle}" Grid.Column="1" />
+                <ctrl:ToggleSwitch x:Name="CloseAllErrorToggle" Content="Close all" IsChecked="False" IsEnabled="True" Foreground="White"
+                    IsThreeState="False" HorizontalAlignment="Center" Height="Auto" Width="Auto" Style="{StaticResource ToggleSwitchStyle}" VerticalAlignment="Center" Grid.Column="1">
+                    <i:Interaction.Triggers>
+                        <ei:PropertyChangedTrigger Binding="{Binding IsChecked, ElementName=CloseAllErrorToggle}">
+                            <i:InvokeCommandAction Command="{Binding CloseAllErrorCommand}" />
+                        </ei:PropertyChangedTrigger>
+                    </i:Interaction.Triggers>
+                </ctrl:ToggleSwitch>
+
+                <Button Command="{Binding CloseErrorCommand}" Style="{StaticResource CloseButtonStyle}" Grid.Column="2" />
             </Grid>
         </Border>
 
